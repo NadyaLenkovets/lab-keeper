@@ -60,7 +60,7 @@ OPENROUTER_EMBEDDING_MODEL=openai/text-embedding-3-small
 PORT=3001
 ```
 
-Собрать индекс (без ключа получится лексический поиск; с ключом — ещё и векторы):
+Собрать векторный индекс (нужен ключ OpenRouter):
 
 ```bash
 npm run rag:index
@@ -81,7 +81,8 @@ npm run dev:all
 | Команда | Назначение |
 |---|---|
 | `npm run dev:all` | Vite + Hono |
-| `npm run rag:index` | Пересобрать `data/rag-index.json` |
+| `npm run rag:index` | Пересобрать `data/rag-index.json` с эмбеддингами |
+| `npm run rag:verify` | Проверить cosine по индексу без нового запроса к API |
 | `npm run test` | Vitest |
 | `npm run test:e2e` | Playwright (сам поднимает preview) |
 | `npm run lint` | ESLint |

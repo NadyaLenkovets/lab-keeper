@@ -7,8 +7,8 @@ import {
   Textarea,
   VStack,
 } from '@chakra-ui/react'
-import { useState } from 'react'
-import { askPlatform } from '@/api/client'
+import { useEffect, useState } from 'react'
+import { askPlatform, fetchHealth, type HealthResponse } from '@/api/client'
 import { SourceCards } from '@/components/ai/source-cards'
 import { compactLearnerSummary, recordAskQuestion } from '@/lib/learner'
 import type { AskAction, AskResponse } from '@/types/rag'
@@ -47,6 +47,13 @@ export function AskPage() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<AskResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [health, setHealth] = useState<HealthResponse | null>(null)
+
+  useEffect(() => {
+    void fetchHealth()
+      .then(setHealth)
+      .catch(() => setHealth(null))
+  }, [])
 
   const run = () => {
     const q = question.trim()
@@ -71,10 +78,18 @@ export function AskPage() {
       <Heading size="3xl" mb={3} color="#84CC16">
         Спроси платформу
       </Heading>
-      <Text color="fg.muted" fontSize="lg" mb={8}>
+      <Text color="fg.muted" fontSize="lg" mb={4}>
         Lab Keeper ищет ответ в статьях, тестах и journey. Источники показываются
         отдельно — это не общий чат.
       </Text>
+      {health && (
+        <Text fontSize="sm" color="accent" mb={6} data-testid="rag-index-status">
+          Индекс: {health.ragChunks ?? 0} чанков, векторы:{' '}
+          {health.ragVectors && health.ragVectors > 0
+            ? `${health.ragVectors} (${health.ragModel})`
+            : 'нет, только слова'}
+        </Text>
+      )}
 
       <HStack gap={2} flexWrap="wrap" mb={4}>
         {presets.map((p) => (

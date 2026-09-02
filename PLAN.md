@@ -83,9 +83,9 @@ flowchart LR
 
 ### Шаг 4 — Индекс и поиск
 
-- `npm run rag:index`: OpenRouter embeddings → `data/rag-index.json` (файл в git, чтобы не жечь лимиты каждый раз).
-- `POST /api/rag/search`: cosine, top-k, порог релевантности.
-- Итог: curl/запрос «галлюцинации» возвращает чанки из статьи/теста.
+- `npm run rag:index`: OpenRouter embeddings → `data/rag-index.json` (53 чанка, модель `openai/text-embedding-3-small`).
+- Поиск: cosine 75% + lexical 25%, порог 0.08. Индекс перечитывается по mtime.
+- `POST /api/rag/search` отдаёт `rankedBy: hybrid`. `/ask` показывает число векторов из `/api/health`.
 
 ### Шаг 5 — «Спроси платформу»
 

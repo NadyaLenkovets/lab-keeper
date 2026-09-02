@@ -29,6 +29,8 @@ export type HealthResponse = {
   model: string
   ragChunks?: number
   ragModel?: string | null
+  ragVectors?: number
+  ragCreatedAt?: string
 }
 
 export async function fetchHealth(): Promise<HealthResponse> {

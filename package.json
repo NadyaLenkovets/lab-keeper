@@ -9,6 +9,7 @@
     "dev:server:example": "tsx --env-file=.env.example server/index.ts",
     "dev:all": "concurrently -n web,api -c green,cyan \"npm run dev\" \"npm run dev:server\"",
     "rag:index": "vite-node scripts/rag-index.ts",
+    "rag:verify": "vite-node scripts/verify-search.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

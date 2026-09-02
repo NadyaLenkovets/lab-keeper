@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { generateJourneyFromAi, gradeAnswerFromAi, nextStepsFromAi } from './ai-service.ts'
 import { getOpenRouterConfig } from './openrouter.ts'
 import { runAskAction, retrieveHits } from './ask-service.ts'
-import { loadRagIndex } from './rag/load-index.ts'
+import { indexStats } from './rag/load-index.ts'
 
 loadRootEnv()
 
@@ -21,13 +21,11 @@ app.use(
 
 app.get('/api/health', (c) => {
   const { configured, model } = getOpenRouterConfig()
-  const index = loadRagIndex()
   return c.json({
     ok: true,
     modelConfigured: configured,
     model,
-    ragChunks: index.chunks.length,
-    ragModel: index.model,
+    ...indexStats(),
   })
 })
 
@@ -213,7 +211,9 @@ app.post('/api/rag/search', async (c) => {
     return c.json({ error: 'Некорректное тело запроса', code: 'BAD_REQUEST' }, 400)
   }
   const hits = await retrieveHits(body.query, body.topK ?? 5)
+  const stats = indexStats()
   return c.json({
+    rankedBy: stats.ragVectors > 0 ? 'hybrid' : 'lexical',
     hits: hits.map((h) => ({
       id: h.chunk.id,
       title: h.chunk.title,

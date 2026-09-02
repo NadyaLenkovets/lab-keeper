@@ -31,7 +31,7 @@
 
 ### 4. Индекс и поиск
 
-`npm run rag:index` → `data/rag-index.json`. `POST /api/rag/search` и retrieve внутри ask.
+`npm run rag:index` пишет векторы OpenRouter в `data/rag-index.json`. Поиск: cosine 75% + lexical 25%, порог 0.08. Индекс перечитывается по mtime файла. `/api/health` отдаёт `ragVectors`. Без векторов скрипт падает, а не молча пишет лексический индекс.
 
 ### 5. Спроси платформу
 
