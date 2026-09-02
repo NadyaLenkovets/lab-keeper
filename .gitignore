@@ -36,3 +36,6 @@ blob-report/
 # Cursor local (empty scaffold leftovers)
 .cursor/
 
+# Runtime overlay: чанки AI-journey после генерации
+data/ai-overlay.json
+

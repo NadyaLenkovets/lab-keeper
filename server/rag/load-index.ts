@@ -2,12 +2,20 @@ import { readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { RagChunk, RagIndexFile } from '../../src/types/rag.ts'
+import { combineIndexChunks } from '../../src/utils/merge-journey-overlay.ts'
+import { invalidateOverlayCache, loadAiOverlay } from './overlay.ts'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 export const INDEX_PATH = path.resolve(here, '../../data/rag-index.json')
 
 let cached: RagIndexFile | null = null
 let cachedMtime = 0
+
+export function invalidateIndexCache(): void {
+  cached = null
+  cachedMtime = 0
+  invalidateOverlayCache()
+}
 
 export function loadRagIndex(force = false): RagIndexFile {
   let mtime = 0
@@ -35,14 +43,15 @@ export function loadRagIndex(force = false): RagIndexFile {
 }
 
 export function getIndexChunks(): RagChunk[] {
-  return loadRagIndex().chunks
+  return combineIndexChunks(loadRagIndex().chunks, loadAiOverlay().chunks)
 }
 
 export function indexStats() {
   const index = loadRagIndex()
-  const withVectors = index.chunks.filter((c) => (c.embedding?.length ?? 0) > 0).length
+  const chunks = getIndexChunks()
+  const withVectors = chunks.filter((c) => (c.embedding?.length ?? 0) > 0).length
   return {
-    ragChunks: index.chunks.length,
+    ragChunks: chunks.length,
     ragModel: index.model,
     ragVectors: withVectors,
     ragCreatedAt: index.createdAt,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { kakRabotayutLlmArticle } from '@/content/articles/kak-rabotayut-llm'
-import { chunkArticle, chunkExercise, buildAllChunks } from '@/content/build-chunks'
+import { chunkArticle, chunkExercise, chunkJourney, buildAllChunks } from '@/content/build-chunks'
 import { getAllArticles } from '@/utils/get-article-by-slug'
 import { exercisesById } from '@/content/exercises'
 import { demoJourney } from '@/content/demo/demo-journey'
@@ -38,5 +38,19 @@ describe('buildAllChunks', () => {
     expect(types.has('test') || types.has('exercise')).toBe(true)
     expect(types.has('journey')).toBe(true)
     expect(chunks.length).toBeGreaterThan(20)
+  })
+})
+
+describe('chunkJourney', () => {
+  it('помечает AI-маршрут origin=ai и ссылкой на /journey/:id', () => {
+    const chunks = chunkJourney(
+      { ...demoJourney, id: 'kj-test', origin: 'ai' },
+      'ai',
+      'struktura-prompta',
+    )
+    expect(chunks.length).toBeGreaterThan(1)
+    expect(chunks.every((c) => c.origin === 'ai')).toBe(true)
+    expect(chunks.every((c) => c.url === '/journey/kj-test')).toBe(true)
+    expect(chunks.some((c) => c.id.endsWith(':summary'))).toBe(true)
   })
 })

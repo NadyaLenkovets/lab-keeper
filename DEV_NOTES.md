@@ -12,7 +12,7 @@
 - RAG: JSON-индекс, cosine если есть embeddings, иначе lexical overlap. Без pgvector/Qdrant.
 - Эмбеддинги и LLM — OpenRouter. Индекс коммитим, чтобы не жечь лимиты на каждый clone.
 - Профиль только в `localStorage` (`lab-keeper-learner`). В индекс не попадает.
-- Генерация journey подмешивает retrieve по теме (grounded), `origin: ai`.
+- Генерация journey подмешивает retrieve по теме (grounded), `origin: ai`. Чанки нового маршрута — в `data/ai-overlay.json`, не в коммитимый индекс.
 - UI: шапка Lab Keeper — Статьи, Тесты, Journey, Спросить, Профиль.
 
 ## Iterations
@@ -51,7 +51,7 @@
 
 ### 9. Journey из базы
 
-`generate-journey` делает retrieve по теме и добавляет фрагменты в промпт. Метка origin.
+`generate-journey` делает retrieve по теме и добавляет фрагменты в промпт. Метка origin. После успеха чанки пишутся в `data/ai-overlay.json` (не в статический индекс), retrieve склеивает overlay с `rag-index.json`. Повтор с тем же id заменяет чанки. `npm run rag:index` overlay не затирает.
 
 ### 10. Сдача
 

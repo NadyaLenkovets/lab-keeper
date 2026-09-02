@@ -32,6 +32,14 @@ export type RagIndexFile = {
   chunks: RagChunk[]
 }
 
+export type AiRagOverlayFile = {
+  version: 1
+  model: string | null
+  updatedAt: string
+  journeys: Array<{ topicId: TopicId; journey: import('./journey').Journey }>
+  chunks: RagChunk[]
+}
+
 export type AskAction = 'ask' | 'explain' | 'analyze' | 'recommend' | 'relate'
 
 export type AskSource = {

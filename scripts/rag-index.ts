@@ -55,6 +55,9 @@ async function main() {
   console.log(
     `Записано ${chunks.length} чанков (${withVec} с векторами) → ${outPath}`,
   )
+  console.log(
+    'AI-journey после генерации живут в data/ai-overlay.json и не затираются этой командой.',
+  )
 }
 
 void main().catch((err: unknown) => {

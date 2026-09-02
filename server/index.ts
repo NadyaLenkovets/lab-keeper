@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { generateJourneyFromAi, gradeAnswerFromAi, nextStepsFromAi } from './ai-service.ts'
 import { getOpenRouterConfig } from './openrouter.ts'
 import { runAskAction, retrieveHits } from './ask-service.ts'
+import { ingestGeneratedJourney } from './rag/ingest-journey.ts'
 import { indexStats } from './rag/load-index.ts'
 
 loadRootEnv()
@@ -76,6 +77,17 @@ app.post('/api/generate-journey', async (c) => {
       text,
       size: body.size,
     })
+    try {
+      const ingested = await ingestGeneratedJourney({
+        journey,
+        query: [topic, text].filter(Boolean).join('\n'),
+      })
+      console.log(
+        `[rag] journey ${journey.id} → overlay: ${ingested.chunkCount} чанков, векторы ${ingested.withVectors}, тема ${ingested.topicId}`,
+      )
+    } catch (ingestErr) {
+      console.warn('[rag] ingest generated journey failed:', ingestErr)
+    }
     return c.json({ journey })
   } catch (err) {
     const status =

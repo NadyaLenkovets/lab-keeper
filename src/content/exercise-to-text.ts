@@ -1,6 +1,6 @@
-import type { ExerciseConfig } from '@/types/exercise'
-import type { ActivityConfig } from '@/types/activity'
-import { isBuildTheBridgeActivity, isFreeTextActivity } from '@/types/activity'
+import type { ExerciseConfig } from '../types/exercise'
+import type { ActivityConfig } from '../types/activity'
+import { isBuildTheBridgeActivity, isFreeTextActivity } from '../types/activity'
 
 export function exerciseToSearchText(config: ExerciseConfig): string {
   const parts = [config.prompt]

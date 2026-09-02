@@ -6,7 +6,7 @@ import type {
   OrderStepsExerciseConfig,
   SingleChoiceExerciseConfig,
   TrueFalseExerciseConfig,
-} from '@/types/exercise'
+} from './exercise'
 
 /** Закрытые типы MVP (порт из Prompt Lab). */
 export type ClosedActivityConfig =
