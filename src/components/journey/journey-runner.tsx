@@ -159,7 +159,7 @@ export function JourneyRunner({ journey }: JourneyRunnerProps) {
         </Heading>
         {journey.origin === 'ai' && (
           <Text fontSize="sm" color="accent" mb={2} data-testid="origin-ai">
-            Сгенерировано AI по корпусу платформы
+            Сгенерировано AI по материалам платформы
           </Text>
         )}
         {journey.origin === 'demo' && (

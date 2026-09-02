@@ -9,7 +9,7 @@
 ## Decisions
 
 - Каркас — Knowledge Journey (Hono, OpenRouter). Контент и 9 типов упражнений — Prompt Lab.
-- RAG: JSON-индекс, cosine если есть embeddings, иначе lexical overlap. Без pgvector/Qdrant.
+- RAG: JSON-индекс без pgvector/Qdrant. Сборка (`rag:index`) требует эмбеддинги OpenRouter и падает без векторов. Поиск — cosine 75% + lexical 25%; если нет вектора у запроса или чанка, остаётся lexical.
 - Эмбеддинги и LLM — OpenRouter. Индекс коммитим, чтобы не жечь лимиты на каждый clone.
 - Профиль только в `localStorage` (`lab-keeper-learner`). В индекс не попадает.
 - Генерация journey подмешивает retrieve по теме (grounded), `origin: ai`. Чанки нового маршрута — в `data/ai-overlay.json`, не в коммитимый индекс.
@@ -62,4 +62,4 @@ README, PROMPTS.md, e2e на `/ask` и главную.
 - Два SPA нельзя просто «склеить маршрутами»: в KJ уже лежал контент Prompt Lab, но страницы статей/тестов не были в роутере.
 - `--env-file=.env.*` в gitignore прятал бы `.env.example` — оставили исключение.
 - Preview Playwright без Hono: `/api/ask` в e2e мокается, поиск корпуса проверяется юнитами и ручным `dev:all`.
-- Эмбеддинги OpenRouter могут быть недоступны на free: тогда индекс лексический, RAG всё равно возвращает источники.
+- Сбой эмбеддинга запроса не ломает `/ask`: retrieve уходит в lexical по уже записанному индексу. Overlay AI-journey при сбое embed тоже пишется без векторов. Пересобрать статический индекс без векторов нельзя — `rag:index` падает.

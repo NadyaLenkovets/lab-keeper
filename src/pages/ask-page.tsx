@@ -126,7 +126,7 @@ export function AskPage() {
         disabled={loading || question.trim().length < 3}
         data-testid="ask-submit"
       >
-        {loading ? 'Ищу в корпусе…' : 'Спросить'}
+        {loading ? 'Ищу в материалах платформы…' : 'Спросить'}
       </Button>
 
       {error && (

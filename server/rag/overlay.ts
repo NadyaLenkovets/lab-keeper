@@ -5,15 +5,10 @@ import type { AiRagOverlayFile } from '../../src/types/rag.ts'
 import { emptyAiOverlay } from '../../src/utils/merge-journey-overlay.ts'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
-export const OVERLAY_PATH = path.resolve(here, '../../data/ai-overlay.json')
+const OVERLAY_PATH = path.resolve(here, '../../data/ai-overlay.json')
 
 let cached: AiRagOverlayFile | null = null
 let cachedMtime = 0
-
-export function invalidateOverlayCache(): void {
-  cached = null
-  cachedMtime = 0
-}
 
 export function loadAiOverlay(force = false): AiRagOverlayFile {
   let mtime = 0

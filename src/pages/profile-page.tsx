@@ -41,7 +41,7 @@ export function ProfilePage() {
       </Heading>
       <Text color="fg.muted" fontSize="lg" mb={8} maxW="65ch">
         Прогресс хранится только в этом браузере. Можно скачать JSON или удалить
-        все данные — в индекс корпуса они не попадают.
+        все данные — в поиск по материалам они не попадают.
       </Text>
 
       <SimpleGrid columns={3} gap={6} mb={10}>

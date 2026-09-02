@@ -38,7 +38,7 @@ function chunksOnlyAnswer(hits: Array<{ chunk: RagChunk; score: number }>): stri
   const lines = hits.map(
     (h, i) => `${i + 1}. ${h.chunk.title}\n${h.chunk.text.slice(0, 320)}`,
   )
-  return `Ключ OpenRouter не задан, поэтому ниже — найденные фрагменты корпуса без генерации ответа:\n\n${lines.join('\n\n')}`
+  return `Ключ OpenRouter не задан, поэтому ниже — найденные фрагменты материалов без генерации ответа:\n\n${lines.join('\n\n')}`
 }
 
 export async function retrieveHits(query: string, topK = 5) {
@@ -72,7 +72,7 @@ export async function runAskAction(input: {
       mode: 'empty',
       sources: [],
       answer:
-        'В корпусе Lab Keeper этого нет. Попробуйте вопрос про токены, галлюцинации или структуру промпта.',
+        'В материалах Lab Keeper этого нет. Попробуйте вопрос про токены, галлюцинации или структуру промпта.',
     }
   }
 

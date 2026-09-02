@@ -3,19 +3,13 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { RagChunk, RagIndexFile } from '../../src/types/rag.ts'
 import { combineIndexChunks } from '../../src/utils/merge-journey-overlay.ts'
-import { invalidateOverlayCache, loadAiOverlay } from './overlay.ts'
+import { loadAiOverlay } from './overlay.ts'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
-export const INDEX_PATH = path.resolve(here, '../../data/rag-index.json')
+const INDEX_PATH = path.resolve(here, '../../data/rag-index.json')
 
 let cached: RagIndexFile | null = null
 let cachedMtime = 0
-
-export function invalidateIndexCache(): void {
-  cached = null
-  cachedMtime = 0
-  invalidateOverlayCache()
-}
 
 export function loadRagIndex(force = false): RagIndexFile {
   let mtime = 0

@@ -109,8 +109,8 @@ export function MainPage() {
             mx="auto"
             css={heroSubtitleMotion}
           >
-            Библиотекарь Prompt Lab: статьи с упражнениями, тесты, journey —
-            и поиск по своим материалам, а не общий чат.
+            Статьи, тесты и маршруты по промпт-инжинирингу.
+            Спросите — ответим по материалам платформы.
           </Text>
         </Box>
       </Box>
@@ -167,7 +167,7 @@ export function MainPage() {
         <Link to="/create" style={{ textDecoration: 'none' }}>
           <Box p={6} borderWidth="1px" borderColor="border" borderRadius="xl" h="full" _hover={{ borderColor: 'accent' }}>
             <Heading size="md" mb={2} color="#84CC16">Journey</Heading>
-            <Text color="fg.muted">Собрать маршрут из темы с опорой на корпус платформы.</Text>
+            <Text color="fg.muted">Собрать маршрут из темы с опорой на статьи и тесты.</Text>
           </Box>
         </Link>
         <Link to="/ask" style={{ textDecoration: 'none' }}>
